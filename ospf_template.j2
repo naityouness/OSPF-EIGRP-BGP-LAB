@@ -1,0 +1,5 @@
+router ospf {{ ospf_config.ospf_process_id }}
+ router-id {{ ospf_config.router_id }}
+{% for network in ospf_config.networks %}
+ network {{ network.ip }} {{ network.mask }} area {{ network.area }}
+{% endfor %}
