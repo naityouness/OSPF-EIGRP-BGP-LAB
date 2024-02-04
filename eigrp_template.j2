@@ -1,0 +1,7 @@
+router eigrp {{ eigrp_config.as_number }}
+address-family ipv4
+ eigrp router-id {{ eigrp_config.router_id }}
+{% for network in eigrp_config.networks %}
+ network {{ network.ip }} {{ network.mask }}
+{% endfor %}
+
