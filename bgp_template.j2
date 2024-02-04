@@ -1,0 +1,16 @@
+router bgp {{ bgp_config.as_number }}
+ bgp router-id {{ bgp_config.router_id }}
+ no bgp default ipv4-unicast
+{% for neighbor in bgp_config.neighbors %}
+ neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
+ address-family ipv4
+  neighbor {{ neighbor.ip }} activate
+  neighbor {{ neighbor.ip }} next-hop-self
+  {% if 'address_family' in bgp_config %}
+  {% for network in bgp_config.address_family.ipv4 %}
+  network {{ network.network }} mask {{ network.mask }}
+  {% endfor %}
+  {% endif %}
+ exit-address-family
+{% endfor %}
+end
